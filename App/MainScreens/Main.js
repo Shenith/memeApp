@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, Tou
 import PostCard from '../Components/PostCard';
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
 import WelcomeScreen from './WelcomeScreen';
+import Loader from '../Components/Loader';
 
 const Main = (props) => {
 
@@ -10,14 +11,15 @@ const Main = (props) => {
     const [ pageNum, setPageNum ] = useState(1);
     const [ pageLoadParam, setPageLoadParam ] = useState(0);
     const [ loading, setLoading ] = useState(true);
+    const [ load, setLoad ] = useState(false);
 
-    const wait = (timeout) => {
-        return new Promise(resolve => {
-            setTimeout(resolve, timeout);
-        });
-    };
+    // const wait = (timeout) => {
+    //     return new Promise(resolve => {
+    //         setTimeout(resolve, timeout);
+    //     });
+    // };
 
-    loadScreen = async (n, pn) => {
+    const loadScreen = async (n, pn) => {
         return fetch('https://www.ideabackery.com/memes/index.php/get_memes/' + n)
             .then((response) => {
                 console.log('response', response);
@@ -32,34 +34,39 @@ const Main = (props) => {
                 } else {
                     console.log('error', resJson.data);
                 }
+                setLoading(false);
             })
             .catch((error) => {
                 console.error('exeption',error.error);
+                setLoading(false);
         });
     }
 
-    goNextPage = () => {
+    const goNextPage = () => {
         loadScreen(pageLoadParam + 10 , pageNum + 1)
     }
 
-    goBackPage = () => {
+    const goBackPage = () => {
         loadScreen(pageLoadParam - 10 , pageNum - 1)
+    }
+
+    const closeModal = () => {
+        console.log('closing');
+        setLoad(false);
     }
 
     useEffect(() => {
         console.log('useeffect run');
         loadScreen(0 , 1);
-        wait(1000).finally(() => {
-            setLoading(false);
-        })
     },[]);
 
 
   return (
     <View>
-        { loading ?
+        <Loader loadStatus={loading}/>
+        {/* { loading ?
             <WelcomeScreen />
-        :
+        : */}
         <View>
         <StatusBar hidden={true} />
         <View style={styles.postCont}>
@@ -87,7 +94,7 @@ const Main = (props) => {
                 <View style={styles.pageNum}>
                     <Text style={styles.txt}>{pageNum}</Text>
                 </View>
-                <TouchableOpacity onPress={goNextPage} style={styles.nextBtn}>
+                <TouchableOpacity onPress={()=>setLoad(true)} style={styles.nextBtn}>
                     <Image
                         style={styles.icon}
                         source={require('../../res/next.png')}
@@ -101,7 +108,7 @@ const Main = (props) => {
             
         </View>
         </View>
-        }
+        {/* } */}
     </View>
   );
 };
