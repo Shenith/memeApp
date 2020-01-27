@@ -1,14 +1,9 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import { Image, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
 import { responsiveWidth, responsiveHeight } from 'react-native-responsive-dimensions';
+import Main from './Main';
 
 const WelcomeScreen = () => {
-
-    const wait = (timeout) => {
-        return new Promise(resolve => {
-            setTimeout(resolve, timeout);
-        });
-    };
     
     return (
         <View style={styles.mainCont}>

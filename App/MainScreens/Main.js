@@ -2,12 +2,20 @@ import React, {Fragment, useEffect, useState} from 'react';
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity, FlatList } from 'react-native';
 import PostCard from '../Components/PostCard';
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
+import WelcomeScreen from './WelcomeScreen';
 
-const Main = () => {
+const Main = (props) => {
 
     const [ memeData, setMemeData ] = useState([]);
     const [ pageNum, setPageNum ] = useState(1);
     const [ pageLoadParam, setPageLoadParam ] = useState(0);
+    const [ loading, setLoading ] = useState(true);
+
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    };
 
     loadScreen = async (n, pn) => {
         return fetch('https://www.ideabackery.com/memes/index.php/get_memes/' + n)
@@ -41,11 +49,18 @@ const Main = () => {
     useEffect(() => {
         console.log('useeffect run');
         loadScreen(0 , 1);
-      },[]);
+        wait(1000).finally(() => {
+            setLoading(false);
+        })
+    },[]);
 
 
   return (
     <View>
+        { loading ?
+            <WelcomeScreen />
+        :
+        <View>
         <StatusBar hidden={true} />
         <View style={styles.postCont}>
             <ScrollView contentContainerStyle={styles.mainCont}>
@@ -85,6 +100,8 @@ const Main = () => {
         <View style={styles.addCont}>
             
         </View>
+        </View>
+        }
     </View>
   );
 };
