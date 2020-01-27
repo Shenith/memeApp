@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import Modal from 'react-native-modal';
-
+import { PacmanIndicator } from 'react-native-indicators';
+  
 
 const Loader = ({...props}) => {
 	return (
@@ -9,10 +10,10 @@ const Loader = ({...props}) => {
 			isVisible={props.loadStatus}
 			animationIn={'fadeIn'}
 			animationOut={'fadeOut'}
-			backdropOpacity={0.6}
+			backdropOpacity={0.9}
 			style={styles.container}
 		>
-			<Text>sheehe</Text>
+			<PacmanIndicator color={'white'} size={50} />
 		</Modal>
 	);
 };

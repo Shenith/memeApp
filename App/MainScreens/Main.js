@@ -13,12 +13,6 @@ const Main = (props) => {
     const [ loading, setLoading ] = useState(true);
     const [ load, setLoad ] = useState(false);
 
-    // const wait = (timeout) => {
-    //     return new Promise(resolve => {
-    //         setTimeout(resolve, timeout);
-    //     });
-    // };
-
     const loadScreen = async (n, pn) => {
         return fetch('https://www.ideabackery.com/memes/index.php/get_memes/' + n)
             .then((response) => {
@@ -33,26 +27,26 @@ const Main = (props) => {
                     setMemeData(resJson.data);
                 } else {
                     console.log('error', resJson.data);
+                    alert(resJson.data);
                 }
                 setLoading(false);
+                setLoad(false);
             })
             .catch((error) => {
                 console.error('exeption',error.error);
                 setLoading(false);
+                setLoad(false);
         });
     }
 
     const goNextPage = () => {
+        setLoad(true);
         loadScreen(pageLoadParam + 10 , pageNum + 1)
     }
 
     const goBackPage = () => {
+        setLoad(true);
         loadScreen(pageLoadParam - 10 , pageNum - 1)
-    }
-
-    const closeModal = () => {
-        console.log('closing');
-        setLoad(false);
     }
 
     useEffect(() => {
@@ -63,10 +57,10 @@ const Main = (props) => {
 
   return (
     <View>
-        <Loader loadStatus={loading}/>
-        {/* { loading ?
+        <Loader loadStatus={load}/>
+        { loading ?
             <WelcomeScreen />
-        : */}
+        :
         <View>
         <StatusBar hidden={true} />
         <View style={styles.postCont}>
@@ -94,7 +88,7 @@ const Main = (props) => {
                 <View style={styles.pageNum}>
                     <Text style={styles.txt}>{pageNum}</Text>
                 </View>
-                <TouchableOpacity onPress={()=>setLoad(true)} style={styles.nextBtn}>
+                <TouchableOpacity onPress={goNextPage} style={styles.nextBtn}>
                     <Image
                         style={styles.icon}
                         source={require('../../res/next.png')}
@@ -108,7 +102,7 @@ const Main = (props) => {
             
         </View>
         </View>
-        {/* } */}
+        }
     </View>
   );
 };
