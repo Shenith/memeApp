@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState, useRef} from 'react';
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity, FlatList } from 'react-native';
 import PostCard from '../Components/PostCard';
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
@@ -16,11 +16,10 @@ const Main = (props) => {
     const loadScreen = async (n, pn) => {
         return fetch('https://www.ideabackery.com/memes/index.php/get_memes/' + n)
             .then((response) => {
-                console.log('response', response);
                 return response.json();
             })
             .then((resJson) => {
-                console.log('resJson', resJson.status);
+                console.log('response', resJson);
                 if (resJson.status == 1) {
                     setPageLoadParam(n);
                     setPageNum(pn);
@@ -33,7 +32,8 @@ const Main = (props) => {
                 setLoad(false);
             })
             .catch((error) => {
-                console.error('exeption',error.error);
+                console.log('exeption',error);
+                alert('Something went wrong');
                 setLoading(false);
                 setLoad(false);
         });
@@ -41,7 +41,7 @@ const Main = (props) => {
 
     const goNextPage = () => {
         setLoad(true);
-        loadScreen(pageLoadParam + 10 , pageNum + 1)
+        loadScreen(pageLoadParam + 10 , pageNum + 1);
     }
 
     const goBackPage = () => {
@@ -74,7 +74,7 @@ const Main = (props) => {
 				/>
 
                 <View style={styles.mainBtnCont}>
-                { (pageLoadParam > 10) ?
+                { (1<pageNum) ?
                     <TouchableOpacity onPress={goBackPage} style={styles.backBtn}>
                     <Image
                         style={styles.icon}
