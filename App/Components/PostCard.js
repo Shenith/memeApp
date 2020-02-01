@@ -34,10 +34,10 @@ const PostCard = (props) => {
 const styles = StyleSheet.create({
     mainCont: {
         width:responsiveWidth(96),
-        height:responsiveHeight(50),
+        height:responsiveHeight(48),
         backgroundColor:'white',
         borderRadius:10,
-        marginTop:responsiveHeight(5),
+        marginTop:responsiveHeight(2),
         alignItems:'center'
     },
     imgCont: {

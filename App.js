@@ -6,7 +6,7 @@ import MainNavigation from './App/Navigation/MainNavigation';
 
 const App = () => {
   return (
-      <MainNavigation />
+      <Main />
   );
 };
 

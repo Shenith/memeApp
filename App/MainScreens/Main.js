@@ -4,6 +4,7 @@ import PostCard from '../Components/PostCard';
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
 import WelcomeScreen from './WelcomeScreen';
 import Loader from '../Components/Loader';
+import { BannerAd, BannerAdSize, TestIds } from '@react-native-firebase/admob';
 
 const Main = (props) => {
 
@@ -12,6 +13,11 @@ const Main = (props) => {
     const [ pageLoadParam, setPageLoadParam ] = useState(0);
     const [ loading, setLoading ] = useState(true);
     const [ load, setLoad ] = useState(false);
+    const [ flatlistRef, setFlatListRef ] = useState('');
+
+    const ITEM_HEIGHT = responsiveHeight(50);
+
+    // const reference = useRef();
 
     const loadScreen = async (n, pn) => {
         return fetch('https://www.ideabackery.com/memes/index.php/get_memes/' + n)
@@ -28,6 +34,9 @@ const Main = (props) => {
                     console.log('error', resJson.data);
                     alert(resJson.data);
                 }
+                if(flatlistRef){
+                    flatlistRef.scrollToIndex({animated: false,index:0});
+                };
                 setLoading(false);
                 setLoad(false);
             })
@@ -69,9 +78,14 @@ const Main = (props) => {
         <View>
         <StatusBar hidden={true} />
         <View style={styles.postCont}>
-            <ScrollView contentContainerStyle={styles.mainCont}>
+            {/* <ScrollView contentContainerStyle={styles.mainCont}> */}
                 <FlatList
-					data={memeData}
+                    scrollEnabled={true}
+                    data={memeData}
+                    ref={(ref) => { setFlatListRef(ref) }}
+                    getItemLayout={(memeData, index) => (
+                        {length: ITEM_HEIGHT,offset: ITEM_HEIGHT * index, index}
+                    )}
 					keyExtractor={item => item.id}
 					renderItem={({ item }) =>
                         <PostCard imgName={item.file_name}/>
@@ -114,13 +128,26 @@ const Main = (props) => {
                     </TouchableOpacity>
                 </View>
 
-            </ScrollView>
+            {/* </ScrollView> */}
         </View>
         <View style={styles.addCont}>
-            
+            <BannerAd
+            unitId={"ca-app-pub-3940256099942544/6300978111"}
+            size={BannerAdSize.FULL_BANNER}
+            requestOptions={{
+                requestNonPersonalizedAdsOnly: true,
+            }}
+            onAdLoaded={() => {
+                console.log('Advert loaded');
+            }}
+            onAdFailedToLoad={(error) => {
+                console.log('Advert failed to load: ', error);
+            }}
+        />
         </View>
         </View>
         }
+        
     </View>
   );
 };
@@ -128,23 +155,29 @@ const Main = (props) => {
 const styles = StyleSheet.create({
     mainCont: {
         backgroundColor:'#e0e0eb',
-        alignItems:'center'
+        alignItems:'center',
+        justifyContent:'center'
     },
     postCont:{
-        height:responsiveHeight(92),
-        width:responsiveWidth(100)
+        backgroundColor:'#ededf0',
+        height:responsiveHeight(90),
+        width:responsiveWidth(100),
+        alignItems:'center',
+        justifyContent:'center'
     },
     addCont:{
-        height:responsiveHeight(8),
+        height:responsiveHeight(10),
         width:responsiveWidth(100),
-        backgroundColor:'#e0e0eb',
+        backgroundColor:'#ededf0',
         alignItems:'center'
 
     },
     mainBtnCont:{
         height:responsiveHeight(8),
-        width:responsiveWidth(60),
-        flexDirection:'row'
+        width:responsiveWidth(100),
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
     },
     backBtn:{
         height:responsiveHeight(8),
