@@ -1,31 +1,32 @@
-import React, {Fragment} from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, Image } from 'react-native';
+import React, {Fragment, useState} from 'react';
+import { Modal, StyleSheet, TouchableOpacity, View, Text, Image } from 'react-native';
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 const PostCard = (props) => {
+
+    const [ imgVisible, setImgVisible ] = useState(false);
+
+    const images = [{
+        url: 'https://www.ideabackery.com/memes/uploads/files/' + props.imgName,
+        resizeMode:'contain'
+    }]
+
   return (
       <View style={styles.mainCont}>
-          <View style={styles.imgCont}>
+          <TouchableOpacity onPress={() => setImgVisible(true)} style={styles.imgCont}>
             <Image
                 style={styles.img}
                 source={{uri: 'https://www.ideabackery.com/memes/uploads/files/' + props.imgName}}
             />
-          </View>
-          <View style={styles.btnCont}>
-                <View style={styles.leftBtn}>
-                    <Image
-                        style={styles.icon}
-                        source={require('../../res/heart2.png')}
-                    />
-                <Text style={styles.txt}>{props.likes}</Text>
-                </View>
-                <View  style={styles.rightBtn}>
-                    <Image
-                        style={styles.icon2}
-                        source={require('../../res/share.png')}
-                    />
-                </View>
-          </View>
+          </TouchableOpacity>
+
+            <Modal
+                visible={imgVisible}
+                transparent={true}
+                onRequestClose={() => setImgVisible(false)}>
+                <ImageViewer imageUrls={images}/>
+            </Modal>
       </View>
   );
 };
@@ -33,7 +34,7 @@ const PostCard = (props) => {
 const styles = StyleSheet.create({
     mainCont: {
         width:responsiveWidth(96),
-        height:responsiveHeight(60),
+        height:responsiveHeight(50),
         backgroundColor:'white',
         borderRadius:10,
         marginTop:responsiveHeight(5),
@@ -41,12 +42,12 @@ const styles = StyleSheet.create({
     },
     imgCont: {
         width: responsiveWidth(90),
-        height: responsiveHeight(50),
+        height: responsiveHeight(48),
         marginTop:responsiveHeight(2)
     },
     img:{
         width: responsiveWidth(90),
-        height: responsiveHeight(48),
+        height: responsiveHeight(46),
         resizeMode:'contain'
     },
     btnCont:{
@@ -56,7 +57,9 @@ const styles = StyleSheet.create({
         borderTopWidth:1,
         borderBottomEndRadius: 10,
         borderBottomStartRadius: 10,
-        flexDirection:'row'
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center'
     },
     leftBtn:{
         height:responsiveHeight(8),
@@ -84,7 +87,7 @@ const styles = StyleSheet.create({
         resizeMode:'stretch'
     },
     txt:{
-        marginLeft:responsiveWidth(2),
+        textAlign:'center',
         fontSize:responsiveFontSize(2)
     }
 

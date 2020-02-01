@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect, useState, useRef} from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity, FlatList } from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, Linking, StatusBar, Image, TouchableOpacity, FlatList } from 'react-native';
 import PostCard from '../Components/PostCard';
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
 import WelcomeScreen from './WelcomeScreen';
@@ -49,6 +49,11 @@ const Main = (props) => {
         loadScreen(pageLoadParam - 10 , pageNum - 1)
     }
 
+    const goHomePage = () => {
+        setLoad(true);
+        loadScreen(0 , 1);
+    }
+
     useEffect(() => {
         console.log('useeffect run');
         loadScreen(0 , 1);
@@ -69,11 +74,18 @@ const Main = (props) => {
 					data={memeData}
 					keyExtractor={item => item.id}
 					renderItem={({ item }) =>
-                        <PostCard likes={35} imgName={item.file_name}/>
+                        <PostCard imgName={item.file_name}/>
 					}
 				/>
 
                 <View style={styles.mainBtnCont}>
+                    <TouchableOpacity onPress={goHomePage} style={styles.backBtn}>
+                    <Image
+                        style={styles.icon}
+                        source={require('../../res/home.png')}
+                    />
+                    </TouchableOpacity>
+
                 { (1<pageNum) ?
                     <TouchableOpacity onPress={goBackPage} style={styles.backBtn}>
                     <Image
@@ -94,6 +106,12 @@ const Main = (props) => {
                         source={require('../../res/next.png')}
                     />
                 </TouchableOpacity>
+                    <TouchableOpacity onPress={() => Linking.openURL('fb://page/1764669670233157').catch((err) => console.log('An error occurred', err))} style={styles.backBtn}>
+                    <Image
+                        style={styles.icon}
+                        source={require('../../res/fb.png')}
+                    />
+                    </TouchableOpacity>
                 </View>
 
             </ScrollView>
@@ -125,7 +143,7 @@ const styles = StyleSheet.create({
     },
     mainBtnCont:{
         height:responsiveHeight(8),
-        width:responsiveWidth(40),
+        width:responsiveWidth(60),
         flexDirection:'row'
     },
     backBtn:{
