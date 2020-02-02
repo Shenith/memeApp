@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
     },
     imgCont: {
         width: responsiveWidth(90),
-        height: responsiveHeight(48),
+        height: responsiveHeight(46),
         marginTop:responsiveHeight(2)
     },
     img:{
         width: responsiveWidth(90),
-        height: responsiveHeight(46),
+        height: responsiveHeight(44),
         resizeMode:'contain'
     },
     btnCont:{

@@ -78,7 +78,6 @@ const Main = (props) => {
         <View>
         <StatusBar hidden={true} />
         <View style={styles.postCont}>
-            {/* <ScrollView contentContainerStyle={styles.mainCont}> */}
                 <FlatList
                     scrollEnabled={true}
                     data={memeData}
@@ -92,13 +91,18 @@ const Main = (props) => {
 					}
 				/>
 
+                
                 <View style={styles.mainBtnCont}>
+                { (1<pageNum) ?
                     <TouchableOpacity onPress={goHomePage} style={styles.backBtn}>
                     <Image
                         style={styles.icon}
                         source={require('../../res/home.png')}
                     />
                     </TouchableOpacity>
+                    :
+                    <View style={styles.backBtn} />
+                }
 
                 { (1<pageNum) ?
                     <TouchableOpacity onPress={goBackPage} style={styles.backBtn}>
@@ -120,15 +124,14 @@ const Main = (props) => {
                         source={require('../../res/next.png')}
                     />
                 </TouchableOpacity>
-                    <TouchableOpacity onPress={() => Linking.openURL('fb://page/1764669670233157').catch((err) => console.log('An error occurred', err))} style={styles.backBtn}>
+                    {/* <TouchableOpacity onPress={() => Linking.openURL('fb://page/1764669670233157').catch((err) => console.log('An error occurred', err))} style={styles.backBtn}>
                     <Image
                         style={styles.icon}
                         source={require('../../res/fb.png')}
                     />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    <View style={styles.backBtn} />
                 </View>
-
-            {/* </ScrollView> */}
         </View>
         <View style={styles.addCont}>
             <BannerAd
