@@ -71,12 +71,13 @@ const Main = (props) => {
 
   return (
     <View>
+        <StatusBar hidden={true} />
         <Loader loadStatus={load}/>
         { loading ?
             <WelcomeScreen />
         :
         <View>
-        <StatusBar hidden={true} />
+        
         <View style={styles.postCont}>
                 <FlatList
                     scrollEnabled={true}
