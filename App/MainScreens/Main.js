@@ -93,6 +93,12 @@ const Main = (props) => {
 
                 
                 <View style={styles.mainBtnCont}>
+                <TouchableOpacity onPress={() => Linking.openURL('fb://page/102587961316116').catch((err) => console.log('An error occurred', err))} style={styles.contentBar}>
+                    <Image
+                        style={styles.icon2}
+                        source={require('../../res/contactUs.png')}
+                    />
+                </TouchableOpacity>
                 { (1<pageNum) ?
                     <TouchableOpacity onPress={goHomePage} style={styles.backBtn}>
                     <Image
@@ -124,17 +130,13 @@ const Main = (props) => {
                         source={require('../../res/next.png')}
                     />
                 </TouchableOpacity>
-                    {/* <TouchableOpacity onPress={() => Linking.openURL('fb://page/1764669670233157').catch((err) => console.log('An error occurred', err))} style={styles.backBtn}>
-                    <Image
-                        style={styles.icon}
-                        source={require('../../res/fb.png')}
-                    />
-                    </TouchableOpacity> */}
-                    <View style={styles.backBtn} />
+                
+                <View style={styles.backBtn} />
+                <View style={styles.contentBar} />
                 </View>
         </View>
-        <View style={styles.addCont}>
-            <BannerAd
+        {/* <View style={styles.addCont}> */}
+            {/* <BannerAd
             unitId={"ca-app-pub-3940256099942544/6300978111"}
             size={BannerAdSize.FULL_BANNER}
             requestOptions={{
@@ -146,8 +148,8 @@ const Main = (props) => {
             onAdFailedToLoad={(error) => {
                 console.log('Advert failed to load: ', error);
             }}
-        />
-        </View>
+        /> */}
+        {/* </View> */}
         </View>
         }
         
@@ -163,7 +165,7 @@ const styles = StyleSheet.create({
     },
     postCont:{
         backgroundColor:'#ededf0',
-        height:responsiveHeight(90),
+        height:responsiveHeight(100),
         width:responsiveWidth(100),
         alignItems:'center',
         justifyContent:'center'
@@ -188,6 +190,12 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center'
     },
+    contentBar:{
+        height:responsiveHeight(8),
+        width:responsiveWidth(20),
+        alignItems:'center',
+        justifyContent:'center'
+    },
     nextBtn:{
         height:responsiveHeight(8),
         width:responsiveWidth(10),
@@ -204,6 +212,10 @@ const styles = StyleSheet.create({
         height:responsiveHeight(3),
         width:responsiveHeight(3),
         resizeMode:'stretch'
+    },
+    icon2:{
+        width:responsiveWidth(18),
+        resizeMode:'contain'
     },
     txt:{
         fontSize:responsiveFontSize(1.5)
